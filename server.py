@@ -39,8 +39,11 @@ def html_page(page=""):
 @app.route("/submit_form", methods=("GET", "POST"))
 def submit_form():
     if request.method == "POST":
-        data = request.form.to_dict()
-        write_to_csv(data)
-        return redirect("/thankyou")
+        try:
+            data = request.form.to_dict()
+            write_to_csv(data)
+            return redirect("/thankyou")
+        except Exception as e:
+            return f"Did not save to database. Error: {e}"
     else:
         return "Something went wrong"
